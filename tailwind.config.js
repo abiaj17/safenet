@@ -8,6 +8,7 @@ export default {
       },
       fontFamily: {
         display: ['"Space Grotesk"', 'sans-serif'],
+        gelasio: ['"Gelasio"', 'serif'],
       },
     },
   },
