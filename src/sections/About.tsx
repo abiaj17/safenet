@@ -51,7 +51,7 @@ export function About() {
 
             <motion.h2
               ref={headRef}
-              className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-12 md:mb-16 max-w-4xl"
+              className="font-display font-semibold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-12 md:mb-16"
               style={{ color: '#E1E0CC' }}
               initial={{ opacity: 0, y: 24 }}
               animate={isHeadInView ? { opacity: 1, y: 0 } : {}}
@@ -78,7 +78,7 @@ export function About() {
                   { val: '2024', label: 'Founded' },
                 ].map((s) => (
                   <div key={s.label}>
-                    <p className="font-display text-3xl sm:text-4xl mb-1" style={{ color: '#E1E0CC' }}>{s.val}</p>
+                    <p className="font-display font-semibold text-3xl sm:text-4xl mb-1" style={{ color: '#E1E0CC' }}>{s.val}</p>
                     <p className="text-blue-100/30 text-xs tracking-widest uppercase">{s.label}</p>
                   </div>
                 ))}

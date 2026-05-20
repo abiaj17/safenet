@@ -48,7 +48,7 @@ export function Closing() {
 
           <motion.h2
             ref={headRef}
-            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-4"
+            className="font-display font-semibold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-4"
             style={{ color: '#E1E0CC' }}
             initial={{ opacity: 0, y: 24 }}
             animate={isHeadInView ? { opacity: 1, y: 0 } : {}}
@@ -58,7 +58,7 @@ export function Closing() {
           </motion.h2>
 
           <motion.h2
-            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-6"
+            className="font-display font-semibold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-6"
             style={{ color: 'rgba(222,219,200,0.3)' }}
             initial={{ opacity: 0, y: 24 }}
             animate={isHeadInView ? { opacity: 1, y: 0 } : {}}

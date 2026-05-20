@@ -47,7 +47,7 @@ export function Features() {
 
           <motion.h2
             ref={headRef}
-            className="font-display text-3xl sm:text-4xl md:text-5xl leading-[1.1] mb-3 max-w-xl"
+            className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl leading-[1.1] mb-3"
             style={{ color: '#E1E0CC' }}
             initial={{ opacity: 0, y: 24 }}
             animate={isHeadInView ? { opacity: 1, y: 0 } : {}}

@@ -48,7 +48,7 @@ export function HowToHelp() {
             <p className="text-blue-300/40 text-[10px] tracking-[0.3em] uppercase mb-4">How you can help</p>
             <motion.h2
               ref={headRef}
-              className="font-display text-3xl sm:text-4xl md:text-5xl leading-[1.1]"
+              className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl leading-[1.1]"
               style={{ color: '#E1E0CC' }}
               initial={{ opacity: 0, y: 24 }}
               animate={isHeadInView ? { opacity: 1, y: 0 } : {}}
