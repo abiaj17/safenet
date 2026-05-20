@@ -18,7 +18,7 @@ export function Closing() {
   const isHeadInView = useInView(headRef, { once: true, margin: '-60px' })
   const [btnOffset, setBtnOffset] = useState({ x: 0, y: 0 })
 
-  const handleBtnMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleBtnMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     setBtnOffset({
       x: (e.clientX - rect.left - rect.width / 2) * 0.25,
