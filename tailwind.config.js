@@ -7,8 +7,8 @@ export default {
         primary: '#DEDBC8',
       },
       fontFamily: {
-        display: ['"Space Grotesk"', '"Inter Variable"', '"Inter"', 'system-ui', 'sans-serif'],
-        gelasio: ['"Gelasio"', '"Inter Variable"', '"Inter"', 'serif'],
+        display: ['"Space Grotesk"', '"Inter"', 'system-ui', 'sans-serif'],
+        gelasio: ['"Gelasio"', '"Inter"', 'serif'],
       },
     },
   },

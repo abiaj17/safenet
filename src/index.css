@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  font-family: 'Almarai', 'Inter Variable', 'Inter', system-ui, sans-serif;
+  font-family: 'Almarai', 'Inter', system-ui, sans-serif;
 }
 
 body {
