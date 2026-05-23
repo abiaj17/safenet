@@ -127,15 +127,24 @@ export function PasswordHero({ onBack, onComplete }: GameProps) {
                   <code className="block text-[14px] font-mono mb-3 break-all leading-relaxed" style={{ color: '#E8E6D4' }}>
                     {pw}
                   </code>
-                  <div className="flex gap-1 items-center">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <div key={i} className="flex-1 h-1.5 rounded-full transition-all duration-300"
-                        style={{ background: i < str ? STRENGTH_COLORS[str] : '#1e2340' }} />
-                    ))}
-                    <span className="ml-2 text-[10px] font-bold" style={{ color: str >= 4 ? '#4ade80' : str >= 3 ? '#fbbf24' : '#f87171' }}>
-                      {STRENGTH_LABELS[str]}
-                    </span>
-                  </div>
+                  {show ? (
+                    <div className="flex gap-1 items-center">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <div key={i} className="flex-1 h-1.5 rounded-full transition-all duration-300"
+                          style={{ background: i < str ? STRENGTH_COLORS[str] : '#1e2340' }} />
+                      ))}
+                      <span className="ml-2 text-[10px] font-bold" style={{ color: str >= 4 ? '#4ade80' : str >= 3 ? '#fbbf24' : '#f87171' }}>
+                        {STRENGTH_LABELS[str]}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex gap-1 items-center">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <div key={i} className="flex-1 h-1.5 rounded-full" style={{ background: '#1e2340' }} />
+                      ))}
+                      <span className="ml-2 text-[10px] font-bold" style={{ color: '#2a3050' }}>?????</span>
+                    </div>
+                  )}
                 </button>
               )
             })}

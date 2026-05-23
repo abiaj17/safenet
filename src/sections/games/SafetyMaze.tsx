@@ -41,6 +41,8 @@ export function SafetyMaze({ onBack, onComplete, onRestart }: GameProps) {
   const [score, setScore] = useState(0)
   const [done, setDone] = useState(false)
   const [failed, setFailed] = useState(false)
+  const [lives, setLives] = useState(3)
+  const [gameOver, setGameOver] = useState(false)
 
   const move = useCallback((dr: number, dc: number) => {
     if (checkpoint || done) return
@@ -76,6 +78,11 @@ export function SafetyMaze({ onBack, onComplete, onRestart }: GameProps) {
       setPassed(p => [...p, checkpoint])
     } else {
       setFailed(true)
+      setLives(l => {
+        const next = l - 1
+        if (next <= 0) setTimeout(() => setGameOver(true), 1400)
+        return next
+      })
     }
   }
 
@@ -88,6 +95,22 @@ export function SafetyMaze({ onBack, onComplete, onRestart }: GameProps) {
     setCheckpoint(null)
     setChosen(null)
   }
+
+  if (gameOver) return (
+    <div className="game-screen max-w-md mx-auto text-center">
+      <button onClick={onBack} className="game-back-btn mb-8 block text-left">← Back to Hub</button>
+      <p className="game-label mb-4">Safety Maze — Game Over</p>
+      <div className="flex items-baseline gap-3 mb-2 justify-center">
+        <span className="game-score-final" style={{ color: '#f87171' }}>{score}</span>
+        <span className="game-score-denom">pts</span>
+      </div>
+      <p className="game-flavor-text mb-8">No lives left. Study up and try again.</p>
+      <div className="flex flex-col gap-3 items-center">
+        <button onClick={() => onComplete(score)} className="game-claim-btn">Claim {score} pts →</button>
+        {onRestart && <button onClick={onRestart} className="game-back-btn">↺ Try Again</button>}
+      </div>
+    </div>
+  )
 
   if (done) {
     const bonus = passed.length === Object.keys(CHECKPOINTS).length ? 30 : 0
@@ -138,6 +161,12 @@ export function SafetyMaze({ onBack, onComplete, onRestart }: GameProps) {
         <button onClick={onBack} className="game-back-btn">← Hub</button>
         <div className="flex items-center gap-4">
           <span className="game-label">{passed.length}/{Object.keys(CHECKPOINTS).length} checkpoints</span>
+          <div className="flex gap-1">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="w-2 h-2 rounded-full transition-all duration-300"
+                style={{ background: i < lives ? '#f87171' : '#1e2236', boxShadow: i < lives ? '0 0 6px #f87171' : 'none' }} />
+            ))}
+          </div>
           <span className="font-black text-[15px]" style={{ color: '#4ADE80', textShadow: '0 0 12px #4ade8055' }}>
             {score} pts
           </span>
@@ -326,7 +355,9 @@ export function SafetyMaze({ onBack, onComplete, onRestart }: GameProps) {
                       : <CheckCircle size={16} strokeWidth={1.5} style={{ color: '#4ade80' }} />
                     }
                     <p className="text-[13px] font-bold" style={{ color: failed ? '#f87171' : '#4ade80' }}>
-                      {failed ? 'Wrong — sent back to start.' : 'Correct! +30 pts. Path cleared.'}
+                      {failed
+                        ? `Wrong — lost a life. ${lives > 0 ? `${lives} left. Back to start.` : 'No lives left!'}`
+                        : 'Correct! +30 pts. Path cleared.'}
                     </p>
                   </div>
                   <button onClick={continueAfterAnswer} className="game-claim-btn w-full text-center">

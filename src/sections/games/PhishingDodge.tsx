@@ -128,8 +128,8 @@ export function PhishingDodge({ onBack, onComplete, onRestart }: GameProps) {
           player = Math.min(97, player + 3)
 
         const elapsed = startRef.current ? (Date.now() - startRef.current) / 1000 : 0
-        const spawnRate = Math.min(0.17, 0.05 + elapsed * 0.003)
-        const baseSpeed = 1.0 + elapsed * 0.05
+        const spawnRate = Math.min(0.22, 0.09 + elapsed * 0.005)
+        const baseSpeed = 1.6 + elapsed * 0.07
 
         let items = prev.items.map(i => ({ ...i, y: i.y + i.speed }))
         if (Math.random() < spawnRate) {
@@ -137,7 +137,7 @@ export function PhishingDodge({ onBack, onComplete, onRestart }: GameProps) {
             id: idRef.current++,
             x: 5 + Math.random() * 90,
             y: -6,
-            type: Math.random() < 0.4 ? 'shield' : 'threat',
+            type: Math.random() < 0.32 ? 'shield' : 'threat',
             speed: baseSpeed + Math.random() * 1.5,
           })
         }

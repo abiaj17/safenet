@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Share2, EyeOff, MapPin, Camera, Mic, Users, CreditCard, UserRound, ShieldAlert } from 'lucide-react'
 import type { GameProps } from '../Game'
+
+const TIME_PER_Q = 7
 
 const scenarios = [
   { req: 'A random quiz app asks for your phone number to "send you your results"', icon: ShieldAlert, share: false, hint: "Quiz results don't require a phone number — this is data harvesting.", app: 'QuizMaster Pro' },
@@ -20,17 +22,40 @@ export function PrivacyProtector({ onBack, onComplete }: GameProps) {
   const [score, setScore] = useState(0)
   const [done, setDone] = useState(false)
   const [bd, setBd] = useState<boolean[]>([])
+  const [timeLeft, setTimeLeft] = useState(TIME_PER_Q)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const stepRef = useRef(step)
+  stepRef.current = step
 
   const q = scenarios[step]
   const ReqIcon = q.icon
 
+  const stopTimer = () => { if (timerRef.current) clearInterval(timerRef.current) }
+
   const pick = (val: boolean) => {
     if (chosen !== null) return
+    stopTimer()
     const correct = val === q.share
     setChosen(val)
     if (correct) setScore(s => s + 17)
     setBd(b => [...b, correct])
   }
+
+  useEffect(() => {
+    if (done || chosen !== null) return
+    setTimeLeft(TIME_PER_Q)
+    timerRef.current = setInterval(() => {
+      setTimeLeft(t => {
+        if (t <= 1) {
+          stopTimer()
+          pick(!scenarios[stepRef.current].share)
+          return 0
+        }
+        return t - 1
+      })
+    }, 1000)
+    return stopTimer
+  }, [step, done]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const next = () => {
     if (step + 1 >= scenarios.length) setDone(true)
@@ -74,6 +99,13 @@ export function PrivacyProtector({ onBack, onComplete }: GameProps) {
         ))}
       </div>
 
+      <div className="h-1.5 rounded-full overflow-hidden mb-4" style={{ background: '#111827' }}>
+        <motion.div className="h-full rounded-full"
+          animate={{ width: `${(timeLeft / TIME_PER_Q) * 100}%` }}
+          transition={{ duration: 0.9, ease: 'linear' }}
+          style={{ background: timeLeft <= 2 ? '#f87171' : '#C084FC', boxShadow: `0 0 8px ${timeLeft <= 2 ? '#f87171' : '#C084FC88'}` }}
+        />
+      </div>
       <p className="font-bold text-[13px] mb-5 tracking-wide" style={{ color: '#8890b0' }}>
         SHOULD YOU SHARE THIS INFO?
       </p>

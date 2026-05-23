@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Lock, Shield, Key, Bug, Laptop, Globe } from 'lucide-react'
+import { Lock, Shield, Key, Bug, Laptop, Globe, Wifi, Eye } from 'lucide-react'
 import type { GameProps } from '../Game'
 import type { LucideIcon } from 'lucide-react'
 
@@ -11,6 +11,8 @@ const SYMBOLS: { Icon: LucideIcon; color: string; label: string; glow: string }[
   { Icon: Bug,    color: '#f87171', label: 'Bug',    glow: '#dc2626' },
   { Icon: Laptop, color: '#a78bfa', label: 'Device', glow: '#7c3aed' },
   { Icon: Globe,  color: '#34d399', label: 'Web',    glow: '#059669' },
+  { Icon: Wifi,   color: '#fb923c', label: 'Wifi',   glow: '#ea580c' },
+  { Icon: Eye,    color: '#e879f9', label: 'Eye',    glow: '#a21caf' },
 ]
 
 const PAIRS = [...SYMBOLS, ...SYMBOLS]
@@ -149,9 +151,9 @@ export function TileMatch({ onBack, onComplete, onRestart }: GameProps) {
         </div>
       </div>
 
-      <p className="game-label mb-5">Find all 6 matching pairs</p>
+      <p className="game-label mb-5">Find all 8 matching pairs</p>
 
-      <div className="grid grid-cols-4 gap-2.5 max-w-[340px] mx-auto">
+      <div className="grid grid-cols-4 gap-2 max-w-[360px] mx-auto">
         {cards.map((card, idx) => {
           const isFlipped = flipped.includes(card.id) || matched.includes(card.id)
           const isMatched = matched.includes(card.id)

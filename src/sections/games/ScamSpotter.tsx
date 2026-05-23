@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle2, XCircle, ShieldCheck, ShieldX, Signal, Wifi, Battery } from 'lucide-react'
 import type { GameProps } from '../Game'
+
+const TIME_PER_Q = 8
 
 const scenarios = [
   { msg: "Congrats! You've been selected for a FREE iPhone 15. Click here to claim: bit.ly/free-ph0ne", answer: 'scam', sender: 'Unknown', initials: '?', hint: 'Free prize links via SMS are almost always phishing.' },
@@ -20,16 +22,40 @@ export function ScamSpotter({ onBack, onComplete }: GameProps) {
   const [score, setScore] = useState(0)
   const [done, setDone] = useState(false)
   const [breakdown, setBreakdown] = useState<boolean[]>([])
+  const [timeLeft, setTimeLeft] = useState(TIME_PER_Q)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const stepRef = useRef(step)
+  stepRef.current = step
 
   const q = scenarios[step]
 
+  const stopTimer = () => { if (timerRef.current) clearInterval(timerRef.current) }
+
   const pick = (choice: string) => {
     if (chosen) return
+    stopTimer()
     const correct = choice === q.answer
     setChosen(choice)
     if (correct) setScore(s => s + 15)
     setBreakdown(b => [...b, correct])
   }
+
+  useEffect(() => {
+    if (done || chosen) return
+    setTimeLeft(TIME_PER_Q)
+    timerRef.current = setInterval(() => {
+      setTimeLeft(t => {
+        if (t <= 1) {
+          stopTimer()
+          const cur = scenarios[stepRef.current]
+          pick(cur.answer === 'real' ? 'scam' : 'real')
+          return 0
+        }
+        return t - 1
+      })
+    }, 1000)
+    return stopTimer
+  }, [step, done]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const next = () => {
     if (step + 1 >= scenarios.length) setDone(true)
@@ -75,6 +101,19 @@ export function ScamSpotter({ onBack, onComplete }: GameProps) {
           <div key={i} className="flex-1 h-1.5 rounded-full transition-all duration-500"
             style={{ background: i < step ? '#4ade80' : breakdown[i] === false ? '#f87171' : i === step ? '#FBBF24' : '#1e2236' }} />
         ))}
+      </div>
+
+      {/* Timer */}
+      <div className="h-1.5 rounded-full overflow-hidden mb-4" style={{ background: '#111827' }}>
+        <motion.div
+          className="h-full rounded-full"
+          animate={{ width: `${(timeLeft / TIME_PER_Q) * 100}%` }}
+          transition={{ duration: 0.9, ease: 'linear' }}
+          style={{
+            background: timeLeft <= 2 ? '#f87171' : timeLeft <= 4 ? '#fbbf24' : '#FBBF24',
+            boxShadow: `0 0 8px ${timeLeft <= 2 ? '#f87171' : '#fbbf24'}88`,
+          }}
+        />
       </div>
 
       <p className="game-label mb-5">Is this message real or a scam?</p>

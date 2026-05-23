@@ -16,7 +16,7 @@ const qs = [
   { q: 'What is a "data breach"?', opts: ['A broken dam', 'Unauthorized access to private data', 'A type of virus', 'Slow loading website'], a: 1 },
 ]
 
-const TIME_PER_Q = 5
+const TIME_PER_Q = 4
 
 const ANSWER_STYLES = [
   { bg: '#E84545', shape: '▲' },

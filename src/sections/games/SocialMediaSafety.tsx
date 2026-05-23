@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { UserRound, Globe, ThumbsUp, ThumbsDown, MessageCircle, Share2, Bookmark, Heart } from 'lucide-react'
 import type { GameProps } from '../Game'
+
+const TIME_PER_Q = 8
 
 const posts = [
   { post: "Just arrived at LAX! 2 weeks in Europe starting now! House all empty. Can't wait!", safe: false, hint: "Announcing you're away with dates tells burglars your home is empty.", likes: 47, comments: 12 },
@@ -22,17 +24,40 @@ export function SocialMediaSafety({ onBack, onComplete }: GameProps) {
   const [score, setScore] = useState(0)
   const [done, setDone] = useState(false)
   const [bd, setBd] = useState<boolean[]>([])
+  const [timeLeft, setTimeLeft] = useState(TIME_PER_Q)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const stepRef = useRef(step)
+  stepRef.current = step
 
   const q = posts[step]
   const avatarColor = AVATAR_COLORS[step % AVATAR_COLORS.length]
 
+  const stopTimer = () => { if (timerRef.current) clearInterval(timerRef.current) }
+
   const pick = (val: boolean) => {
     if (chosen !== null) return
+    stopTimer()
     const correct = val === q.safe
     setChosen(val)
     if (correct) setScore(s => s + 13)
     setBd(b => [...b, correct])
   }
+
+  useEffect(() => {
+    if (done || chosen !== null) return
+    setTimeLeft(TIME_PER_Q)
+    timerRef.current = setInterval(() => {
+      setTimeLeft(t => {
+        if (t <= 1) {
+          stopTimer()
+          pick(!posts[stepRef.current].safe)
+          return 0
+        }
+        return t - 1
+      })
+    }, 1000)
+    return stopTimer
+  }, [step, done]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const next = () => {
     if (step + 1 >= posts.length) setDone(true)
@@ -76,6 +101,13 @@ export function SocialMediaSafety({ onBack, onComplete }: GameProps) {
         ))}
       </div>
 
+      <div className="h-1.5 rounded-full overflow-hidden mb-4" style={{ background: '#111827' }}>
+        <motion.div className="h-full rounded-full"
+          animate={{ width: `${(timeLeft / TIME_PER_Q) * 100}%` }}
+          transition={{ duration: 0.9, ease: 'linear' }}
+          style={{ background: timeLeft <= 2 ? '#f87171' : '#F472B6', boxShadow: `0 0 8px ${timeLeft <= 2 ? '#f87171' : '#F472B688'}` }}
+        />
+      </div>
       <p className="font-bold text-[13px] mb-5 tracking-wide" style={{ color: '#8890b0' }}>
         SAFE TO POST PUBLICLY?
       </p>

@@ -5,16 +5,16 @@ import { About } from './sections/About'
 import { Features } from './sections/Features'
 import { WhatWeDo } from './sections/WhatWeDo'
 import { HowToHelp } from './sections/HowToHelp'
-import { Closing } from './sections/Closing'
+import { Game } from './sections/Game'
 
-export type Page = 'home' | 'who-we-are' | 'why-it-matters' | 'what-we-do' | 'how-to-help' | 'get-involved'
+export type Page = 'home' | 'who-we-are' | 'why-it-matters' | 'what-we-do' | 'how-to-help' | 'game'
 
 const navItems: { label: string; page: Page }[] = [
   { label: 'Who We Are', page: 'who-we-are' },
   { label: 'Why It Matters', page: 'why-it-matters' },
   { label: 'What We Do', page: 'what-we-do' },
   { label: 'How To Help', page: 'how-to-help' },
-  { label: 'Get Involved', page: 'get-involved' },
+  { label: 'Game', page: 'game' },
 ]
 
 function App() {
@@ -77,7 +77,7 @@ function App() {
           {activePage === 'why-it-matters'&& <Features />}
           {activePage === 'what-we-do'    && <WhatWeDo />}
           {activePage === 'how-to-help'   && <HowToHelp />}
-          {activePage === 'get-involved'  && <Closing />}
+          {activePage === 'game'          && <Game />}
         </motion.div>
       </AnimatePresence>
     </div>

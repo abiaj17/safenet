@@ -4,9 +4,10 @@ interface Props {
   gridSize?: number
   color?: string
   decay?: number
+  zIndex?: number
 }
 
-export function SectionTrail({ gridSize = 32, color = '#DEDBC8', decay = 0.92 }: Props) {
+export function SectionTrail({ gridSize = 32, color = '#DEDBC8', decay = 0.92, zIndex = 2 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -101,7 +102,7 @@ export function SectionTrail({ gridSize = 32, color = '#DEDBC8', decay = 0.92 }:
   return (
     <canvas
       ref={canvasRef}
-      style={{ position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none' }}
+      style={{ position: 'absolute', inset: 0, zIndex, pointerEvents: 'none' }}
     />
   )
 }

@@ -72,7 +72,7 @@ export function BasketballShooter({ onBack, onComplete }: GameProps) {
   const shoot = () => {
     if (shooting) return
     const diff = Math.abs(power - PERFECT_POWER)
-    const made = diff <= 1 || Math.random() < (0.55 - diff * 0.1)
+    const made = diff === 0 || Math.random() < (0.38 - diff * 0.1)
     const shotPts = made ? (power === PERFECT_POWER ? 30 : 24) : 8
     const traj = getTrajectory(power, made)
     setShotTrajectory(traj)
