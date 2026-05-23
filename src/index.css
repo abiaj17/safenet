@@ -31,3 +31,128 @@ body {
   background-repeat: repeat;
   background-size: 100px 100px;
 }
+
+/* ── Game system ── */
+
+@keyframes starFall {
+  from { top: -2%; }
+  to   { top: 102%; }
+}
+
+@keyframes floatUp {
+  0%   { opacity: 1; transform: translateY(0) translateX(-50%); }
+  100% { opacity: 0; transform: translateY(-48px) translateX(-50%); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.9; }
+}
+
+@keyframes engineFlame {
+  0%, 100% { transform: scaleY(1) scaleX(1); opacity: 0.8; }
+  50%       { transform: scaleY(1.4) scaleX(0.8); opacity: 1; }
+}
+
+@keyframes cardShimmer {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(300%) skewX(-15deg); }
+}
+
+
+.game-card {
+  background: rgba(20, 21, 40, 0.7);
+  backdrop-filter: blur(6px);
+  position: relative;
+  z-index: 1;
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+.game-card:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.06);
+}
+.game-card:active {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+
+/* Shared game screen container */
+.game-screen {
+  padding: 2rem 2rem 4rem;
+}
+@media (min-width: 640px) {
+  .game-screen {
+    padding: 2rem 3.5rem 4rem;
+  }
+}
+@media (min-width: 768px) {
+  .game-screen {
+    padding: 2rem 5rem 4rem;
+  }
+}
+
+.game-label {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #3a4060;
+}
+
+.game-hub-title {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 800;
+  color: #E8E6D4;
+  letter-spacing: -0.02em;
+}
+
+.game-score-big {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #F59E0B;
+  font-variant-numeric: tabular-nums;
+}
+
+.game-score-final {
+  font-size: clamp(3.5rem, 10vw, 5rem);
+  font-weight: 900;
+  color: #E8E6D4;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.game-score-denom {
+  font-size: 1.5rem;
+  color: rgba(255,255,255,0.15);
+}
+
+.game-flavor-text {
+  font-size: 14px;
+  color: #4a5578;
+  line-height: 1.5;
+}
+
+.game-back-btn {
+  font-size: 13px;
+  color: #3a4060;
+  transition: color 0.15s;
+}
+.game-back-btn:hover {
+  color: #8890b0;
+}
+
+.game-claim-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-size: 14px;
+  font-weight: 700;
+  background: #E8E6D4;
+  color: #0a0b14;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.game-claim-btn:hover {
+  opacity: 0.9;
+}
+.game-claim-btn:active {
+  transform: scale(0.97);
+}
