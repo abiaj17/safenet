@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Share2, EyeOff, MapPin, Camera, Mic, Users, CreditCard, UserRound, ShieldAlert } from 'lucide-react'
+import { Share2, EyeOff, MapPin, Camera, Users, CreditCard, UserRound, ShieldAlert } from 'lucide-react'
 import type { GameProps } from '../Game'
 
 const TIME_PER_Q = 7
